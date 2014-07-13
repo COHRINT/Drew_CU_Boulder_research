@@ -1,4 +1,4 @@
-function [pix,piy,target] = drosophilaSearch(A,m,n,x,y,dkt)
+function [pix,piy,target] = drosophilaSearch(A,x,y)
     [ymaxlist,xmaxlist]=find(A==max(A(:)));
     s = size(ymaxlist);
     sgrid = size(A);
