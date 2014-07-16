@@ -1,58 +1,10 @@
 
-function [time_to_detection,correct_identification]= experiment_sim(alpha,beta,A,searchID)
-
-
-                                                         
-global m;
-global n;
+function [time_to_detection,correct_identification]= experiment_sim(alpha,beta,A,searchID,xtx,xty,xt,yt)
 global Xv;
 global Yv;
 global Xg;
 global Yg; 
 global maxSteps;
-global lookahead;
-
-%Real Location of target
-targetDeployed = 0;
-int32 xtx;
-int32 xty;
-int32 targetPos;
-
-xtx = n+10;
-xty = m+10;
-
-while ~targetDeployed
-    while (xtx < -n || xty < -m || xtx > n ||xty > m || ~targetDeployed)
-        targetPos = gendist(A(:)',1,1);
-        xtx = Xv(floor(targetPos/(2*n+1))+1);
-        xty = Yv(targetPos - floor(targetPos/(2*n+1))*(2*n+1)+1);
-        targetDeployed = 1;
-    end
-    
-    if A(find(Yv==xty),find(Xv==xtx)) == 0
-        targetDeployed = 0;
-    else
-        targetDeployed = 1;
-    end
-end
-
-
-%Start Location of agent
-agentDeployed = 0;
-xt=n+10;
-yt=m+10;
-while ~agentDeployed
-    while (xt < -n || yt < -m || xt > n ||yt > m || ~agentDeployed)
-        xt = randi(2*m,1)-m;
-        yt = randi(2*n,1)-n;
-        agentDeployed = 1;
-    end
-    if A(find(Yv==yt),find(Xv==xt)) == 0
-        agentDeployed = 0;
-    else
-        agentDeployed = 1;
-    end
-end
 
 target = [nan,nan];
 A(A==0)=nan;
@@ -76,7 +28,7 @@ view(2)
 global numSearchIDs;
 numSearchIDs = 4;
 global stepsSinceLastExplore;
-
+clear newLookahead;
     while count <= maxSteps                                                           
          dkt = takeMeasurement(alpha,beta,xtx,xty,xt,yt);                  %Generate a pseudo-random measurement from the sensor
          A = bayesUpdate(A,alpha,beta,xt,yt,dkt,Xg,Yg);                    %Update the grid recursively 
@@ -91,7 +43,7 @@ global stepsSinceLastExplore;
              if searchID == 1
                  
                [ixt,iyt,target] = drosophLookaheadHybrid(A,ixt,iyt,count);
-%                 [~,ixt,iyt] = Lookahead(A,ixt,iyt,1,lookahead,1);              %Use lookahead algorithm to decide where to go next. The 3rd argument changes the distance the agent can move in one time step and the 4th argument changes the number of lookahead steps
+%               [ixt,iyt] = newLookahead(A,ixt,iyt);            
 %              elseif searchID == 2
 %                 [ixt,iyt] = randomSearch(A,ixt,iyt,1,m,n,dkt);
              elseif searchID == 2
@@ -105,7 +57,7 @@ global stepsSinceLastExplore;
              end
              
              if (~isnan(target(1)));
-                 patha = A_star(A,[ixt,iyt],target)
+                 patha = A_star(A,[ixt,iyt],target);
                  patha(1,:) = [];
                  ixt = patha(1,1);
                  iyt = patha(1,2);

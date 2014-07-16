@@ -10,14 +10,14 @@ for i= -dist:dist,                                                              
                 if(wcurrent < w)                                                   %If we have another step in Lookahead, run the function again
                     [utility2,~,~] = Lookahead(A,x+j,y+i,dist,w,wcurrent+1);           %Extract data from subroutine (nra: replaced unused outputs with ~)
                     currentBelief = currentBelief + utility2;                         %Then update total utility of current Lookahead
-                    if currentBelief >= utility                                      %If the current lookahead creates a high utility, update the optimal path parameters
+                    if currentBelief > utility                                      %If the current lookahead creates a high utility, update the optimal path parameters
                         utility = currentBelief;
                         pix = x+j;
                         piy=y+i;
                     end
                 else                                                               %If it is the last step in Lookahead
                     currentBelief = utility + currentBelief;
-                    if currentBelief >= utilityMax                                        %And the current belief is more optimal, update the the optimal path parameters
+                    if currentBelief > utilityMax                                        %And the current belief is more optimal, update the the optimal path parameters
                         utilityMax = currentBelief;
                         pix = x+j;
                         piy=y+i;

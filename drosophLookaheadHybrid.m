@@ -1,7 +1,6 @@
 function [ixt,iyt,target] = drosophLookaheadHybrid(A,x,y,count)
 global stepsSinceLastExplore;
 global maxSteps;
-global lookahead;
 
 if count == 0
     stepsSinceLastExplore = 0;
@@ -13,8 +12,9 @@ end
 if stepsSinceLastExplore / maxSteps >= 0.08
     [ixt,iyt,target] = drosophilaSearch(A,x,y);
     stepsSinceLastExplore = 0;
+    clear newLookahead;
 else
-    [~,ixt,iyt] = Lookahead(A,x,y,1,lookahead,1);
+    [ixt,iyt] = newLookahead(A,x,y);
     target = [nan,nan];
     stepsSinceLastExplore = stepsSinceLastExplore + 1;
 end
