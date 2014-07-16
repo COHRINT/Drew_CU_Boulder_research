@@ -30,12 +30,12 @@ end
 xpaths = permutations + x;
 ypaths = permutations + y;
 
-utilityList = zeros(size(xpaths,1)*size(ypaths,1)*size(xpaths,2),1);
+utilityList = zeros(size(xpaths,1)*size(ypaths,1),1);
 
 for i = 1:size(xpaths,1)
     for j = 1:size(ypaths,1)
         for k = 1:size(xpaths,2)
-            paths(k,1:2,sub2ind([size(xpaths,1),size(ypaths,1)],i,j)) = [xpaths(i,k),ypaths(j,k)];
+            paths(k,1:2,sub2ind([size(ypaths,1),size(xpaths,1)],i,j)) = [xpaths(i,k),ypaths(j,k)];
             if k>1
                 for v = 1:k-1
                     if xpaths(i,k) == xpaths(i,v) && ypaths(j,k) == ypaths(j,v)
@@ -62,12 +62,12 @@ for i = 1:size(xpaths,1)
 end
 
 kstar = find(max(utilityList) == utilityList);
-kstar = kstar(randi(size(kstar,1),1))
+kstar = kstar(randi(size(kstar,1),1));
 %kstar = kstar(1);
 
-pix = paths(1,1,kstar)
-piy = paths(1,2,kstar)
-currentPath = paths(:,:,kstar)
+pix = paths(1,1,kstar);
+piy = paths(1,2,kstar);
+currentPath = paths(:,:,kstar);
 currentPath(1,:) = [];
 
 end

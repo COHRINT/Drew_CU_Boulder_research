@@ -1,4 +1,4 @@
-function [pix,piy,target] = sweepingSearch2(A,x,y)
+function [pix,piy,target] = sweepingSearch(A,x,y)
     [m,n] = size(A);
     persistent cornerHit;
     persistent vx;

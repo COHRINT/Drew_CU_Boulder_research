@@ -1,4 +1,4 @@
-function [time_to_detection_list,num_successful_searches_list] = experiment_type(numRuns,type)
+function [time_to_detection_list,num_successful_searches_list] = run_experiment_type(numRuns,type)
     global A;
     global obstacleGrid;
     global alphaList;

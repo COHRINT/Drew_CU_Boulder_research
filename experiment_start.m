@@ -1,30 +1,32 @@
-
+%   Author: Drew Ellison
+%   Email: dme722@gmail.com
+%   File Description:
+%   The experiment_start program initializes global variables including
+%   grid size, obstacles, maximum number of allowed steps in a given
+%   simulations, and the lookahead window used by the optimal lookahead
+%   function. 
 clc
 clear
 close all
-clear sweepingSearch2
+%Clear functions with persistent variables
+clear sweepingSearch
+clear drosophLookaheadHybrid
 
 %Initialize grid
-global  m;
-global  n;
-global Xv;
-global Yv;
-global Xg;
+global  m;  %Grid y extent
+global  n;  %Grid x extent
+global Xv;  %Grid x list
+global Yv;  %Grid y list
+global Xg;  %Mesh grid variables
 global Yg;
-global A;
-global obstacleGrid;
-global alphaList;
-global betaList;
-global maxSteps;
-global stepsSinceLastExplore;
+global obstacleGrid;   %Obstacle grid setup
+global maxSteps;    %Maximum number of steps in simulation allowed
+global lookahead;   %Lookahead window used in optimal lookahead search
 
-stepsSinceLastExplore = [];
 
-alphaList = 0.2:0.2:0.8;
-betaList = 0.2:0.2:0.8;
 
-m = 15;                                                                    %grid y extent   
-n = 15;                                                                    %grid x extent
+m = 15;                                                                     
+n = 15;                                                                   
 
 Xv = -m:m;
 Yv = -n:n;
@@ -56,8 +58,13 @@ obstacleGrid(11:11,22:24,1) = 0;
 obstacleGrid(11:11,27:31,1) = 0;
 obstacleGrid(3:5,24:26,1) = 0;
 
-maxSteps = 2000;
+maxSteps = 20;
+lookahead = 3;
+
+%Begin experiment
 [time_to_detection_array,correct_identification_list]= experiment(1);
+%When experiment is complete, display the answer to life, the universe and
+%everything. 
 42
 
 
