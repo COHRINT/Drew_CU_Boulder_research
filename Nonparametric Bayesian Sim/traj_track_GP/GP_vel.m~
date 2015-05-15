@@ -1,0 +1,14 @@
+function GP_vel()
+
+dt = .1; 
+
+traj = simulate_traj();
+diff_pos = diff([traj(:,1),traj(:,2)]);
+
+vel_est = sqrt(diff_pos(:,1).^2 + diff_pos(:,2).^2)./dt;
+
+data = [traj(2:end,1:2),vel_est]
+
+
+
+end
